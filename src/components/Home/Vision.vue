@@ -9,14 +9,34 @@
                 <p class="uppsercase font-bold text-32 laptop:text-[40px]">Visi</p>
                 <p class="absolute uppercase opacity-20 text-7xl laptop:text-[128px] font-bold left-3">Visi</p>
             </div>
-            <p class="text-14 laptop:text-24 opacity-90 tracking-wider">Terwujudnya Masyarakat Rukun Warga (RW) 17 Kelurahan Madyopuro yang Kreatif, Mandiri, Berdaya saing dan Bermartabat.</p>
+            <p class="text-14 laptop:text-24 opacity-90 tracking-wider">{{vision.vision}}</p>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'VisionComponent'
+    name: 'VisionComponent',
+    data() {
+        return {
+            vision: ''
+        }
+    },
+    methods: {
+        getVision() {
+            this.axios.get('vision').then(response => {
+                this.vision = response.data.data[0];
+                console.log(
+                    response.data.data
+                );
+            }).catch(error => {
+                console.log(error);
+            });
+        }
+    },
+    mounted() {
+        this.getVision()
+    }
 }
 </script>
 

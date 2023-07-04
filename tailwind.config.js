@@ -42,6 +42,9 @@ module.exports = {
         '18': ['18px', {
           lineHeight: '24.55px',
         }],
+        '20': ['20px', {
+          lineHeight: '24.55px',
+        }],
         '24': ['24px', {
           lineHeight: '39.5px',
         }],

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="laptop:px-40">
     <!--Breadcrumb-->
-    <nav class="w-full rounded-md px-6 mb-4 text-10">
+    <nav class="w-full rounded-md px-6 mb-4 text-10 laptop:text-16">
       <ol class="list-reset flex">
         <li>
           <a href="#"
@@ -21,9 +21,10 @@
         <li class="text-primary">Sejarah</li>
       </ol>
     </nav>
-    <p class="font-bold text-16 px-6 mb-4">Sejarah Terbentuknya RW 10, Bandung ....</p>
-    <img src="/src/assets/img/history.svg" alt="history" class="mb-10">
-    <p class="text-12 px-6 opacity-90 tracking-wide mb-14">
+    <p class="font-bold text-16 px-6 mb-4 laptop:text-40 laptop:mb-12">Sejarah Terbentuknya RW 10, Bandung ....</p>
+
+    <img :src="history.photo_url" alt="history" class="mb-10 w-full">
+    <p class="text-12 px-6 opacity-90 tracking-wide mb-14 laptop:text-24">
       Perumahan Bulan Terang Utama adalah salah satu proyek perumahan sederhana, sehat dan terjangkau yang diperuntukkan
       untuk masyarakat berpenghasilan rendah yang ada di kota Malang. Pembangunan Perumahan Bulan Terang Utama ini
       dilaksanakan oleh Developer PT. Bulan Terang Utama dan perumahan ini berlokasi di JL. Ki ageng Gribig Kelurahan
@@ -64,6 +65,24 @@
 <script>
 export default {
   name: 'AboutUsView',
+  data() {
+    return {
+      history: ''
+    }
+  },
+  methods: {
+    getHistory() {
+      this.axios.get('history').then(response => {
+        this.history = response.data.data;
+        console.log(response.data.data);
+      }).catch(error => {
+        console.log(error);
+      })
+    }
+  },
+  mounted() {
+    this.getHistory();
+  }
 }
 </script>
 
