@@ -25,7 +25,7 @@
         <div class="bg-gradient-to-r from-white via-primary to-white h-[1px] hidden laptop:block mt-7 mb-24"></div>
 
         <div class="grid grid-cols-1 laptop:grid-cols-3 gap-4 w-full mb-6 laptop:mb-40">
-            <div @click="detailAchievement(id)" v-for="{id, title, image_url, description, categories} in achievements" :key="id" class="rounded-2xl bg-white p-6 text-left laptop:px-6 laptop:py-9 hover:cursor-pointer">
+            <div @click="detailAchievement(id)" v-for="{id, title, image_url, description} in achievements" :key="id" class="rounded-2xl bg-white p-6 text-left laptop:px-6 laptop:py-9 hover:cursor-pointer">
                 <div class="relative mb-2">
                     <img :src="image_url" onerror="this.onerror=null;this.src='/src/assets/img/activity.png'" alt=""
                         class="rounded-2xl mb-2 h-[194px] w-full laptop:mb-5 laptop:h-[297px] object-cover">
@@ -34,7 +34,7 @@
                         <p class="text-[8px] text-black opacity-60 font-bold laptop:text-h-5">Jan</p>
                     </div>
                 </div>
-                <p class="uppercase text-primary text-10 mb-1 laptop:hidden">{{ categories[0].category.name }}</p>
+                <p class="uppercase text-primary text-10 mb-1 laptop:hidden">{{ categories.length > 0 ? categories[0].category.name : '' }}</p>
                 <p class="font-bold text-16 mb-2 laptop:text-h-3 laptop:mb-4">{{title}}</p>
                 <p class="text-12 opacity-50 laptop:text-h-4 truncate">{{description}}</p>
             </div>

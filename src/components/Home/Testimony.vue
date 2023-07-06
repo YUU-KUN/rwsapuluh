@@ -1,6 +1,6 @@
 <template>
     <div class="bg-primary rounded-2xl p-5 laptop:rounded-[32px] laptop:py-24 laptop:px-16">
-        <p class="w-3/4 text-white font-bold text-16 mb-5 laptop:text-40 laptop:mb-24">
+        <p class=" text-white font-bold text-16 mb-5 laptop:text-40 laptop:mb-24">
             Apa yang mereka katakan tentang RW 10
         </p>
         <div class="owl-carousel owl-theme testimonial-carousel">

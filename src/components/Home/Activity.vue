@@ -11,7 +11,7 @@
                         <p class="text-[8px] text-black opacity-60 font-bold laptop:text-h-5">{{ getMonth(created_at) }}</p>
                     </div>
                 </div>
-                <p class="uppercase text-primary text-10 mb-1 laptop:hidden">{{ categories[0].category.name }}</p>
+                <p class="uppercase text-primary text-10 mb-1 laptop:hidden">{{ categories.length > 0 ? categories[0].category.name : '-' }}</p>
                 <p class="font-bold text-16 mb-2 laptop:text-h-3 laptop:mb-4">{{ title }}</p>
                 <p class="text-12 opacity-50 laptop:text-h-4 truncate">{{ description }}</p>
             </div>
