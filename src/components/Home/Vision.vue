@@ -1,15 +1,18 @@
 <template>
     <div class="flex flex-col laptop:grid laptop:grid-cols-2 items-center justify-center">
-        <div class="relative flex flex-col items-center justify-center bg-primary rounded-[32px] w-[189px] h-[221px] laptop:h-[473px] laptop:w-[404px] mb-8 laptop:mr-40">
-            <img src="/src/assets/img/vision-mission.svg" alt=""
-                class="absolute w-[212px] h-[167px] laptop:h-[359px] laptop:w-[454px] rounded-[32px] left-8 laptop:left-16">
+        <div
+            class="relative flex flex-col items-center justify-center bg-primary rounded-[32px] w-[189px] h-[221px] laptop:h-[473px] laptop:w-[404px] mb-8 laptop:mr-40">
+            <!-- <img src="/assets/img/vision-mission.svg" alt=""
+                class="absolute w-[212px] h-[167px] laptop:h-[359px] laptop:w-[454px] rounded-[32px] left-8 laptop:left-16"> -->
+            <img :src="visionImage.image_url" alt=""
+                class="absolute w-[212px] h-[167px] laptop:h-[359px] laptop:w-[454px] rounded-[32px] left-8 laptop:left-16 object-cover">
         </div>
         <div>
             <div class="relative flex items-center justify-start mb-6 laptop:mb-16">
                 <p class="uppsercase font-bold text-32 laptop:text-[40px]">Visi</p>
                 <p class="absolute uppercase opacity-20 text-7xl laptop:text-[128px] font-bold left-3">Visi</p>
             </div>
-            <p class="text-14 laptop:text-24 opacity-90 tracking-wider">{{vision.vision}}</p>
+            <p class="text-14 laptop:text-24 opacity-90 tracking-wider">{{ vision.vision }}</p>
         </div>
     </div>
 </template>
@@ -19,7 +22,8 @@ export default {
     name: 'VisionComponent',
     data() {
         return {
-            vision: ''
+            vision: '',
+            visionImage: '',
         }
     },
     methods: {
@@ -32,10 +36,19 @@ export default {
             }).catch(error => {
                 console.log(error);
             });
+        },
+        getVisionImage() {
+            this.axios.get('vision-image').then(response => {
+                this.visionImage = response.data.data[0];
+                console.log('visionImage', this.visionImage);
+            }).catch(error => {
+                console.log(error);
+            })
         }
     },
     mounted() {
         this.getVision()
+        this.getVisionImage()
     }
 }
 </script>

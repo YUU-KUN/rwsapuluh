@@ -29,12 +29,13 @@
         </nav>
 
         <div class="w-full my-10">
-            <img :src="achievement.image_url" onerror="this.onerror=null;this.src='/src/assets/img/achievement-detail.png'" alt="" class="object-cover w-full laptop:h-[609px] rounded-xl">
+            <img :src="achievement.image_url" onerror="this.onerror=null;this.src='/assets/img/achievement-detail.png'"
+                alt="" class="object-cover w-full laptop:h-[609px] rounded-xl">
         </div>
         <p class="font-bold text-16 mb-4 laptop:text-40">{{ achievement.title }}</p>
         <p class="opacity-80 text-16 text-[#716F6F] mb-7">Dipublikasikan {{ getPublishedDate(achievement.created_at) }}</p>
-    <p class="text-12 opacity-90 tracking-wide mb-14 laptop:text-24">{{ achievement.description }}</p>
-        
+        <p class="text-12 opacity-90 tracking-wide mb-14 laptop:text-24">{{ achievement.description }}</p>
+
 
     </div>
 </template>

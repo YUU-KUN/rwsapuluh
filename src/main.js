@@ -5,9 +5,6 @@ import 'tw-elements'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
-import '../node_modules/leaflet/dist/leaflet.css'
-import '../node_modules/leaflet/dist/leaflet.js'
-
 const app = createApp(App)
 
 app.use(router)

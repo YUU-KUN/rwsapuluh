@@ -13,11 +13,11 @@
                 <li class="text-primary">Kontak Kami</li>
             </ol>
         </nav>
-        <div class="grid grid-cols-1 laptop:grid-cols-2 gap-16">
+        <div class="grid grid-cols-1 laptop:grid-cols-2 gap-16 mb-24">
             <div class="hidden laptop:block">
                 <div id="map" class="h-[418px] rounded-[20px] drop-shadow px-6 mb-6"></div>
                 <div class="flex justify-center items-center bg-white rounded-2xl px-6 py-4">
-                    <img src="/src/assets/icons/maps-icon.png" alt="maps-icon" class="mr-5">
+                    <img src="/assets/icons/maps-icon.png" alt="maps-icon" class="mr-5">
                     <p class="font-semibold text-12 laptop:text-18">RWSapuluh Bojongsoang, Kab. Bandung</p>
                 </div>
             </div>
@@ -27,12 +27,12 @@
                 </p>
                 <div class="laptop:grid laptop:grid-cols-2 laptop:gap-6 mb-6">
                     <div class="flex flex-col items-start justify-center w-full text-12 mb-4 laptop:mb-0">
-                        <label class="font-bold opacity-60 mb-2" for="name">Name <span>*</span></label>
+                        <label class="font-bold opacity-60 mb-2" for="name">Nama <span>*</span></label>
                         <input type="text" id="name"
                             class="bg-white py-3 px-4 w-full rounded-lg laptop:px-4 laptop:py-5 laptop:rounded-2xl"
                             placeholder="Enter your name..." v-model="name">
                     </div>
-                    <div class="flex flex-col items-start justify-center w-full text-12 mb-4 laptop:mb-0">
+                    <!-- <div class="flex flex-col items-start justify-center w-full text-12 mb-4 laptop:mb-0">
                         <label class="font-bold opacity-60 mb-2" for="email">Email <span>*</span></label>
                         <input type="email" id="email"
                             class="bg-white py-3 px-4 w-full rounded-lg laptop:px-4 laptop:py-5 laptop:rounded-2xl"
@@ -43,16 +43,16 @@
                         <input type="text" id="subject"
                             class="bg-white py-3 px-4 w-full rounded-lg laptop:px-4 laptop:py-5 laptop:rounded-2xl"
                             placeholder="Enter your subject..." v-model="subject">
-                    </div>
+                    </div> -->
                     <div class="flex flex-col items-start justify-center w-full text-12 mb-4 laptop:mb-0">
-                        <label class="font-bold opacity-60 mb-2" for="phone">Phone <span>*</span></label>
+                        <label class="font-bold opacity-60 mb-2" for="phone">Nomor Telepon <span>*</span></label>
                         <input type="phone" id="phone"
                             class="bg-white py-3 px-4 w-full rounded-lg laptop:px-4 laptop:py-5 laptop:rounded-2xl"
                             placeholder="Enter yout mobile phone..." v-model="phone">
                     </div>
                     <div
                         class="flex flex-col items-start justify-center w-full text-12 mb-4 laptop:mb-0 laptop:col-span-2 laptop:rounded-2xl">
-                        <label class="font-bold opacity-60 mb-2" for="message">Message <span>*</span></label>
+                        <label class="font-bold opacity-60 mb-2" for="message">Pesan <span>*</span></label>
                         <textarea name="message" id="message" cols="30" rows="5" placeholder="Enter your messages..."
                             class="bg-white py-3 px-4 w-full rounded-lg" v-model="message"></textarea>
                     </div>
@@ -75,11 +75,15 @@ export default {
     data() {
         return {
             name: '',
-            email: '',
-            subject: '',
+            // email: '',
+            // subject: '',
+            contact: '',
             phone: '',
             message: '',
-            whatsapp_url: ''
+            whatsapp_url: '',
+            coordinates: [-6.9714715, 107.6438126],
+            latitude: '',
+            longitude: ''
         }
     },
     methods: {
@@ -90,43 +94,64 @@ export default {
                 this.phone = this.phone.replace('8', '+628')
             }
         },
+        getContact() {
+            this.axios.get('contact').then(response => {
+                this.contact = response.data.data
+            }).catch(error => {
+                console.log(error)
+            })
+        },
         sendComplaints() {
-            if (this.name == '' || this.email == '' || this.subject == '' || this.phone == '' || this.message == '') {
+            if (this.name == '' || this.phone == '' || this.message == '') {
                 alert('Mohon lengkapi data terlebih dahulu')
             } else {
                 this.formatPhone()
                 const data = {
                     name: this.name,
-                    email: this.email,
-                    subject: this.subject,
                     phone: this.phone,
                     message: this.message
                 }
                 this.axios.post('message', data).then(() => {
                     // alert('Pesan berhasil dikirim')
-                    const formattedMessage = `Nama: ${this.name}%0AEmail: ${this.email}%0ASubject: ${this.subject}%0APhone: ${this.phone}%0AMessage: ${this.message}`;
-                    this.whatsapp_url = `https://wa.me/${this.phone}?text=${formattedMessage}`;
+                    const formattedMessage = `Nama: ${this.name}%0ANomor Telepon: ${this.phone}%0APesan: ${this.message}`;
+                    // const formattedMessage = `Nama: ${this.name}%0AEmail: ${this.email}%0ASubject: ${this.subject}%0APhone: ${this.phone}%0AMessage: ${this.message}`;
+                    this.whatsapp_url = `https://wa.me/${this.contact.phone}?text=${formattedMessage}`;
                     window.open(this.whatsapp_url, '_blank')
+
+                    // then reset form
+                    this.name = ''
+                    this.phone = ''
+                    this.message = ''
+
                 }).catch(() => {
                     alert('Pesan gagal dikirim')
                 })
             }
         },
+        onMarkerClick() {
+            window.open(`https://www.google.com/maps/search/?api=1&query=${this.latitude},${this.longitude}`, '_blank');
+        }
     },
     mounted() {
+        this.getContact()
+        this.latitude = this.coordinates[0]
+        this.longitude = this.coordinates[1]
+
         var map = L.map("map", {
-            center: [-6.9714715, 107.6438126, 12],
+            attributionControl: false,
+            center: [this.latitude, this.longitude, 12],
             zoom: 15,
         });
 
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution:
-                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
         }).addTo(map);
 
-        L.marker([-6.9714715, 107.6438126]).addTo(map)
-            // .bindPopup('Tempat RW')
-            .openPopup();
+        L.marker(this.coordinates).addTo(map)
+            // .bindPopup('Tempat RW')  
+            .openPopup()
+            .on('click', this.onMarkerClick)
     }
 }
 </script>

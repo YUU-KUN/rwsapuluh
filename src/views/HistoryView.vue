@@ -21,7 +21,7 @@
         <li class="text-primary">Sejarah</li>
       </ol>
     </nav>
-    <p class="font-bold text-16 px-6 mb-4 laptop:text-40 laptop:mb-12">Sejarah Terbentuknya RW 10, Bandung ....</p>
+    <p class="font-bold text-16 px-6 mb-4 laptop:text-40 laptop:mb-12">Sejarah</p>
 
     <img :src="history.photo_url" alt="history" class="mb-10 w-full">
     <p class="text-12 px-6 opacity-90 tracking-wide mb-14 laptop:text-24">
@@ -64,7 +64,7 @@
 
 <script>
 export default {
-  name: 'AboutUsView',
+  name: 'HistoryView',
   data() {
     return {
       history: ''

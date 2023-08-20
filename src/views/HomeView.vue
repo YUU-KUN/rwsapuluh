@@ -1,12 +1,12 @@
 <template>
   <Banner class="laptop:mb-36"/>
   <div class="px-6 laptop:px-36 mb-12">
-    <Vision class="mb-12 laptop:mb-32"/>
-    <Mission class="mb-12 laptop:mb-12"/>
+    <Vision class="mb-12 laptop:mb-32" id="vision"/>
+    <Mission class="mb-12 laptop:mb-12" id="mission"/>
     <Statistic class="mb-12 laptop:mb-24"/>
     <ActivityVideo class="mb-32 laptop:mb-[346px]"/>
     <Testimony class="mb-12 laptop:mb-40"/>
-    <Activity class="mb-12"/>
+    <!-- <Activity class="mb-12"/> -->
     <hr class="hidden laptop:block border-primary border my-36">
     <div class="laptop:grid laptop:grid-cols-5 laptop:gap-24">
       <Maps class="mb-12 laptop:col-span-2"/>
@@ -22,7 +22,7 @@ import Mission from '../components/Home/Mission.vue';
 import Statistic from '../components/Home/Statistic.vue';
 import ActivityVideo from '../components/Home/ActivityVideo.vue';
 import Testimony from '../components/Home/Testimony.vue';
-import Activity from '../components/Home/Activity.vue';
+// import Activity from '../components/Home/Activity.vue';
 import Maps from '../components/Home/Maps.vue';
 import Complaints from '../components/Home/Complaints.vue';
 export default {
@@ -32,7 +32,7 @@ export default {
     Mission,
     Statistic,
     ActivityVideo,
-    Activity,
+    // Activity,
     Testimony,
     Maps,
     Complaints

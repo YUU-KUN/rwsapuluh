@@ -6,6 +6,7 @@
             <!-- Left elements -->
             <router-link to="/">
                 <IconMain />
+                <p class="text-16">RW 10, Desa Cipagalo, Bojongsoang, Bandung</p>
             </router-link>
 
             <!-- Right elements -->
@@ -44,86 +45,97 @@
                 id="navbarSupportedContent1" data-te-collapse-item>
                 <ul class="list-style-none mr-auto flex flex-col pl-0 lg:flex-row text-right" data-te-navbar-nav-ref>
                     <li class="mb-4 laptop:self-center lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-                        <router-link to="/"
+                        <router-link to="/" active-class="text-primary"
                             class="text-black hover:text-primary focus:text-primary lg:px-2 [&.active]:text-black/90"
                             data-te-nav-link-ref>Beranda</router-link>
                     </li>
                     <li class="relative mb-4 laptop:self-center lg:mb-0 lg:pr-2" data-te-nav-item-ref data-te-dropdown-ref>
-                        <a class="hidden-arrow flex items-center justify-end text-black hover:text-primary focus:text-primary lg:px-2 [&.active]:text-black/90 "
+                        <router-link to="/about-us" active-class="text-primary"
+                            class="hidden-arrow flex items-center justify-end text-black hover:text-primary focus:text-primary lg:px-2 [&.active]:text-black/90 "
                             id="dropdown-about-us" role="button" data-te-dropdown-toggle-ref aria-expanded="false">
                             Tentang Kami
-                            <img src="/src/assets/icons/arrow-down.png" alt="arrow-down" class="ml-1">
-                        </a>
+                            <img src="/assets/icons/arrow-down.png" alt="arrow-down" class="ml-1">
+                        </router-link>
                         <!-- First dropdown menu -->
                         <ul class="absolute left-auto right-0 z-[1000] float-left m-0 mt-1 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
                             aria-labelledby="dropdown-about-us" data-te-dropdown-menu-ref>
                             <li class="bg-white hover:bg-primary">
-                                <router-link to="/history"
+                                <router-link to="/about-us/history"
                                     class="hover:text-white block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-black active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent"
                                     data-te-dropdown-item-ref>Sejarah</router-link>
                             </li>
                             <li class="bg-white hover:bg-primary">
-                                <router-link to="/organization-structure"
+                                <router-link to="/about-us/organization-structure"
                                     class="hover:text-white block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-black active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent"
                                     data-te-dropdown-item-ref>Struktur Organisasi</router-link>
                             </li>
                         </ul>
                     </li>
                     <li class="mb-4 laptop:self-center lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-                        <router-link to="/service"
+                        <router-link to="/service" active-class="text-primary"
                             class="text-black hover:text-primary focus:text-primary lg:px-2 [&.active]:text-black/90"
                             data-te-nav-link-ref>Layanan</router-link>
                     </li>
                     <li class="relative mb-4 laptop:self-center lg:mb-0 lg:pr-2" data-te-nav-item-ref data-te-dropdown-ref>
-                        <a @click="getInstitutions()"
+                        <router-link to="/institution" active-class="text-primary" @click="getInstitutions()"
                             class="hidden-arrow flex items-center justify-end text-black hover:text-primary focus:text-primary lg:px-2 [&.active]:text-black/90 "
                             id="dropdown-institution" role="button" data-te-dropdown-toggle-ref aria-expanded="false">
                             Kelembagaan
-                            <img src="/src/assets/icons/arrow-down.png" alt="arrow-down" class="ml-1">
-                        </a>
+                            <img src="/assets/icons/arrow-down.png" alt="arrow-down" class="ml-1">
+                        </router-link>
                         <!-- First dropdown menu -->
                         <ul class="absolute left-auto right-0 z-[1000] float-left m-0 mt-1 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
                             aria-labelledby="dropdown-institution" data-te-dropdown-menu-ref>
-                            <div :class="institutions.length > 5 ? 'grid grid-rows-5 grid-flow-col bg-white' : ''">
-                                <!-- First dropdown menu items -->
+                            <div v-if="institutions.length > 0"
+                                :class="institutions.length > 5 ? 'grid grid-rows-5 grid-flow-col bg-white' : ''">
                                 <li v-for="{ id, name } in institutions" :key="id" class="bg-white hover:bg-primary">
-                                    <router-link :to="{ name: 'institution', params: { institution_id: id } }"
+                                    <router-link :to="{ name: 'institution detail', params: { institution_id: id } }"
                                         class="hover:text-white block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-black active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400"
                                         data-te-dropdown-item-ref>{{ name }}</router-link>
+                                </li>
+                            </div>
+                            <div v-else class="bg-white">
+                                <li class="bg-white">
+                                    <p class="cursor-default block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-black active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400"
+                                        data-te-dropdown-item-ref>
+                                        Belum ada data lembaga
+                                    </p>
                                 </li>
                             </div>
                         </ul>
                     </li>
                     <li class="relative mb-4 laptop:self-center lg:mb-0 lg:pr-2" data-te-nav-item-ref data-te-dropdown-ref>
-                        <a class="hidden-arrow flex items-center justify-end text-black hover:text-primary focus:text-primary lg:px-2 [&.active]:text-black/90 "
+                        <router-link to="/information" active-class="text-primary"
+                            class="hidden-arrow flex items-center justify-end text-black hover:text-primary focus:text-primary lg:px-2 [&.active]:text-black/90 "
                             id="dropdownMenuButton1" role="button" data-te-dropdown-toggle-ref aria-expanded="false">
                             Informasi
-                            <img src="/src/assets/icons/arrow-down.png" alt="arrow-down" class="ml-1">
-                        </a>
+                            <img src="/assets/icons/arrow-down.png" alt="arrow-down" class="ml-1">
+                        </router-link>
                         <!-- First dropdown menu -->
                         <ul class="absolute left-auto right-0 z-[1000] float-left m-0 mt-1 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
                             aria-labelledby="dropdownMenuButton1" data-te-dropdown-menu-ref>
                             <!-- First dropdown menu items -->
                             <li class="bg-white hover:bg-primary">
-                                <router-link to="/achievement"
+                                <router-link to="/information/achievement"
                                     class="hover:text-white block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-black active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent"
                                     data-te-dropdown-item-ref>Prestasi</router-link>
                             </li>
                             <li class="bg-white hover:bg-primary">
-                                <router-link to="/activity"
+                                <router-link to="/information/activity"
                                     class="hover:text-white block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-black active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent"
                                     data-te-dropdown-item-ref>Kegiatan</router-link>
                             </li>
                         </ul>
                     </li>
-                    <li class="mb-4 laptop:self-center lg:mb-0 flex justify-end lg:pr-2" data-te-nav-item-ref>
+                    <!-- <li class="mb-4 laptop:self-center lg:mb-0 flex justify-end lg:pr-2" data-te-nav-item-ref>
                         <a class="text-black hover:text-primary focus:text-primary lg:px-2 [&.active]:text-black/90"
                             data-te-nav-link-ref>
-                            <img src="/src/assets/icons/search-icon.png" alt="search-icon" class="h-6 w-6">
+                            <img src="/assets/icons/search-icon.png" alt="search-icon" class="h-6 w-6">
                         </a>
-                    </li>
+                    </li> -->
                     <li class="mb-4 laptop:self-center lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-                        <button class=" bg-primary rounded-md text-white px-5 py-2">Kontak Kami</button>
+                        <button @click="$router.push({ name: 'contact' })"
+                            class=" bg-primary rounded-md text-white px-5 py-2">Kontak Kami</button>
                     </li>
                 </ul>
 

@@ -13,22 +13,26 @@
         <li class="text-primary">Layanan</li>
       </ol>
     </nav>
-    
-    <p class="text-center font-bold text-16 mb-5 laptop:text-40 laptop:mb-12">Layanan</p>
+
+    <p class="text-center font-bold text-16 mb-5 laptop:text-40 laptop:mb-12">Pedoman Layanan Surat-Menyurat untuk Warga
+    </p>
     <div class="bg-gradient-to-r from-white via-primary to-white h-[1px] hidden laptop:block mt-7 mb-24"></div>
 
     <div class="flex flex-col items-center justify-center w-full mb-12">
 
-      <div v-for="{ service, description, id } in services" :key="id" class="mb-4 w-full">
+      <div v-for="{ name, description, id, url } in services" :key="id" class="mb-4 w-full">
         <button class="flex items-center justify-between bg-white rounded-md py-4 px-8 w-full laptop:px-8 laptop:py-4"
           type="button" data-te-collapse-init :data-te-target="`#collapse-${id}`" data-te-ripple-init
           data-te-ripple-color="light" aria-expanded="false" :aria-controls="`collapse-${id}`">
-          <p class="text-12 laptop:text-h-4 capitalize">{{ service }}</p>
-          <img src="/src/assets/icons/arrow-down.png" alt="arrow-down">
+          <p class="text-12 laptop:text-h-4 capitalize">{{ name }}</p>
+          <img src="/assets/icons/arrow-down.png" alt="arrow-down">
         </button>
         <div class="multi-collapse !visible hidden rounded-lg shadow-lg" data-te-collapse-item :id="`collapse-${id}`">
           <div class="block rounded-lg bg-white p-6 rounded-t-none text-12 laptop:text-h-4">
             {{ description }}
+            <div v-if="url" class="mt-4">
+              Link: <a :href="url" target="_blank" class="text-primary">{{ url }}</a>
+            </div>
           </div>
         </div>
       </div>
@@ -36,17 +40,20 @@
     </div>
 
     <div class="laptop:grid laptop:grid-cols-2 laptop:mb-32">
-      <div class="bg-white rounded-3xl p-4 w-[213px] h-auto mx-auto mb-10 laptop:h-[455px] laptop:w-[455px]">
-        <!-- <img src="/src/assets/img/qr-code.png" alt="qr-code" class="object-cover h-full w-full"> -->
-        <qrcode-vue :value="whatsapp_url" class="object-cover h-full w-full" :render-as="'svg'" />
+      <div v-if="contact" class="bg-white rounded-3xl p-4 laptop:h-[455px] laptop:w-[455px] mx-auto mb-10">
+        <qrcode-vue :value="whatsapp_url" class="object-cover w-full h-full" :render-as="'svg'" />
       </div>
 
       <div class="mb-12 laptop:self-center">
         <p class="text-16 font-bold mb-3 laptop:text-h-1 laptop:mb-7">Kontak Kami</p>
-        <p class="text-12 opacity-60 laptop:text-h-4">Hubungi kontak person kami di bawah ini untuk informasi lebih lanjut.</p>
-        <p class="text-12 opacity-60 mb-6 laptop:text-h-4 capitalize font-bold">{{ contact.name }} ({{ contact.phone }})</p>
-        <button @click="chatWhatsapp" class="bg-primary rounded-lg px-7 py-3 text-white font-bold text-12">Chat
-          Whatsapp</button>
+        <p class="text-12 opacity-60 laptop:text-h-4 mb-6">Hubungi kontak person kami di bawah ini untuk informasi lebih
+          lanjut.</p>
+        <p v-if="contact" class="text-12 opacity-60 mb-6 laptop:text-h-4 capitalize font-bold">
+          {{ contact.name }} ({{ contact.phone }})
+        </p>
+        <button @click="chatWhatsapp" class="bg-primary rounded-lg px-7 py-3 text-white font-bold text-12">
+          Chat Whatsapp
+        </button>
       </div>
     </div>
   </div>
@@ -62,7 +69,7 @@ export default {
   data() {
     return {
       services: [],
-      contact: {},
+      contact: '',
       whatsapp_url: ''
     }
   },
@@ -80,15 +87,14 @@ export default {
     getContact() {
       this.axios.get('contact').then(response => {
         this.contact = response.data.data;
-        if (this.contact.phone.charAt(0) == '0') {
-          this.contact.phone = this.contact.phone.replace('0', '+62')
-        } else if (this.contact.phone.charAt(0) == '8') {
-          this.contact.phone = this.contact.phone.replace('8', '+628')
+        if (this.contact) {
+          if (this.contact.phone[0] == '0') {
+            this.contact.phone = this.contact.phone.replace('0', '+62')
+          } else if (this.contact.phone[0] == '8') {
+            this.contact.phone = this.contact.phone.replace('8', '+628')
+          }
+          this.whatsapp_url = `https://wa.me/${this.contact.phone}?text=Halo%20Admin%20Saya%20Ingin%20Bertanya%20Tentang%20Layanan%20Anda`
         }
-        this.whatsapp_url = `https://wa.me/${this.contact.phone}?text=Halo%20Admin%20Saya%20Ingin%20Bertanya%20Tentang%20Layanan%20Anda`
-        console.log(
-          response.data.data
-        );
       }).catch(error => {
         console.log(error);
       })

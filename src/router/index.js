@@ -16,68 +16,105 @@ import Achievement from '../views/AchievementView.vue'
 import AchievementDetail from '../views/AchievementDetailView.vue'
 import OrganizationStructure from '../views/OrganizationStructureView.vue'
 
+// import OrganizationStructure from '../views/Chart.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    // Kelembagaan
     {
-      path: '/institution/:institution_id',
+      path: '/institution/',
       name: 'institution',
-      components: {default: Institution, Navbar, Footer}
+      children: [
+        {
+          path: 'institution/:institution_id',
+          name: 'institution detail',
+          components: { default: Institution, Navbar, Footer }
+        },
+      ]
     },
+
+    // Kontak Kami
     {
       path: '/contact',
       name: 'contact',
-      components: {default: Contact, Navbar, Footer}
+      components: { default: Contact, Navbar, Footer }
     },
-    {
-      path: '/organization-structure',
-      name: 'organization-structure',
-      components: {default: OrganizationStructure, Navbar, Footer}
-    },
+
+    // Layanan
     {
       path: '/service',
       name: 'service',
-      components: {default: Service, Navbar, Footer}
+      components: { default: Service, Navbar, Footer }
     },
+
+    // Informasi
     {
-      path: '/achievement/:achievement_id',
-      name: 'achievement-detail',
-      components: {default: AchievementDetail, Navbar, Footer}
+      path: '/information/',
+      name: 'information',
+      children: [
+        {
+          path: 'achievement/:achievement_id',
+          name: 'achievement-detail',
+          components: { default: AchievementDetail, Navbar, Footer }
+        },
+        {
+          path: 'achievement',
+          name: 'achievement',
+          components: { default: Achievement, Navbar, Footer }
+        },
+        {
+          path: 'activity/:activity_id',
+          name: 'activity-detail',
+          components: { default: ActivityDetail, Navbar, Footer }
+        },
+        {
+          path: 'activity',
+          name: 'activity',
+          components: { default: Activity, Navbar, Footer }
+        },
+      ]
     },
+
+    // Tentang Kami
     {
-      path: '/achievement',
-      name: 'achievement',
-      components: {default: Achievement, Navbar, Footer}
+      path: '/about-us/',
+      name: 'about-us',
+      children: [
+        {
+          path: 'history',
+          name: 'history',
+          components: { default: History, Navbar, Footer }
+        },
+        {
+          path: 'organization-structure',
+          name: 'organization-structure',
+          components: { default: OrganizationStructure, Navbar, Footer }
+        },
+      ]
     },
-    {
-      path: '/activity/:activity_id',
-      name: 'activity-detail',
-      components: {default: ActivityDetail, Navbar, Footer}
-    },
-    {
-      path: '/activity',
-      name: 'activity',
-      components: {default: Activity, Navbar, Footer}
-    },
-    {
-      path: '/history',
-      name: 'history',
-      components: {default: History, Navbar, Footer}
-    },
+
+    // Dashboard
     {
       path: '/',
       name: 'home',
-      components: {default: HomeView, Navbar, Footer}
+      components: { default: HomeView, Navbar, Footer }
     },
   ]
 })
 
 router.afterEach(() => {
   window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
+    behavior: 'smooth',
   })
-    
+  if (window.location.hash !== '#mission' && window.location.hash !== '#vision') {
+    // add scroll to top
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
+
 })
 
 export default router

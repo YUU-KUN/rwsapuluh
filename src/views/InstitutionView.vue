@@ -27,11 +27,21 @@
         <div class="grid grid-cols-1 laptop:grid-cols-2 laptop:gap-4 w-full mb-6">
             <img v-for="{ image_url, id } in institution.galleries" :key="id" :src="image_url" alt="institution"
                 class="rounded-lg mb-3 w-full">
-            <!-- <img src="/src/assets/img/institution.png" alt="institution" class="rounded-lg mb-3 w-full"> -->
+            <!-- <img src="/assets/img/institution.png" alt="institution" class="rounded-lg mb-3 w-full"> -->
         </div>
         <p class="opacity-90 text-16 mb-10 laptop:text-24">
             {{ institution.description }}
         </p>
+
+        <!-- Table Organization Structure -->
+        <p class="font-bold text-16 laptop:text-24 mb-2">Struktur Organisasi</p>
+        <table class="w-full mb-10 ">
+            <tr class="w-full" v-for="structure in institution.structures" :key="structure.id">
+                <td class="border border-black text-left px-6 text-16 laptop:text-24">{{ structure.position }}</td>
+                <td class="border border-black text-center text-16 laptop:text-24">:</td>
+                <td class="border border-black text-left px-6 text-16 laptop:text-24">{{ structure.name }}</td>
+            </tr>
+        </table>
     </div>
 </template>
 
@@ -46,11 +56,14 @@ export default {
     },
     methods: {
         getInstitution() {
-            this.axios.get(`institution/${this.institution_id}`).then((response) => {
-                this.institution = response.data.data
-            }).catch((error) => {
-                console.log(error)
-            })
+            if (this.$route.params.institution_id) {
+                this.axios.get(`institution/${this.institution_id}`).then((response) => {
+                    this.institution = response.data.data
+                    console.log(this.institution.structures);
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }
         },
     },
     mounted() {
@@ -60,7 +73,6 @@ export default {
             this.getInstitution()
         })
     },
-
 }
 </script>
 

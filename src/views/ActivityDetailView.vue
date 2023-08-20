@@ -29,12 +29,13 @@
         </nav>
 
         <div class="w-full my-10">
-            <img :src="activity.image_url" onerror="this.onerror=null;this.src='/src/assets/img/activity-detail.png'" alt="" class="object-cover w-full laptop:h-[609px] rounded-xl">
+            <img :src="activity.image_url" onerror="this.onerror=null;this.src='/assets/img/activity-detail.png'" alt=""
+                class="object-cover w-full laptop:h-[609px] rounded-xl">
         </div>
         <p class="font-bold text-16 mb-4 laptop:text-40">{{ activity.title }}</p>
         <p class="opacity-80 text-16 text-[#716F6F] mb-7">Dipublikasikan {{ getPublishedDate(activity.created_at) }}</p>
         <p class="text-12 opacity-90 tracking-wide mb-14 laptop:text-24">{{ activity.description }}</p>
-        
+
 
     </div>
 </template>
@@ -52,13 +53,11 @@ export default {
         getActivity() {
             this.axios.get(`activity/${this.activity_id}`).then((response) => {
                 this.activity = response.data.data
-                console.log(this.activity);
             }).catch((error) => {
                 console.log(error)
             })
         },
         getPublishedDate(date) {
-            // 23 May 2023
             const publishedDate = new Date(date)
             const month = publishedDate.toLocaleString('default', { month: 'long' })
             const day = publishedDate.getDate()
