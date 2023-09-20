@@ -10,7 +10,7 @@
                 <p class="text-12 laptop:text-h-3 laptop:w-1/2 truncate">{{ description }}</p>
             </div>
         </div>
-        <div class="relative w-full">
+        <!-- <div class="relative w-full">
             <img src="/assets/img/banner/banner-2.png" alt="" class="object-cover rounded-2xl h-44 laptop:h-[565px] w-full">
             <div
                 class="absolute laptop:flex laptop:flex-col laptop:justify-end laptop:pb-14 p-5 bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black to-none bg-opacity-60 rounded-2xl text-white laptop:px-24">
@@ -27,7 +27,7 @@
                 <p class="text-12 laptop:text-h-3 laptop:w-1/2">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                     Lorem Ipsum Lorem Ipsum </p>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
